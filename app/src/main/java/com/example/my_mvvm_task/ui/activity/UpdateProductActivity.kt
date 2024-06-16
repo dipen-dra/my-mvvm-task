@@ -83,7 +83,7 @@ class UpdateProductActivity : AppCompatActivity() {
         fun uploadImage() {
             var src = "update";
             imageUri?.let {
-                productViewModel.uploadImages(src, it) { success, imageUrl, message ->
+                productViewModel.uploadImages(src, it) { success, imageUrl, message,_ ->
                     if (success) {
                         updateProduct(imageUrl.toString(), src)
                     } else {

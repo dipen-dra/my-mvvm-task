@@ -70,6 +70,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.storage)
 
     // Testing libraries
     testImplementation(libs.junit)

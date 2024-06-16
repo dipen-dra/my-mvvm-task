@@ -107,21 +107,19 @@ class AddProductActivity : AppCompatActivity() {
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
         }
     }
-
     private fun uploadImage() {
         loadingUtils.showLoading()
         val src = "add"
         imageUri?.let {
-            productViewModel.uploadImages(src, it) { success, imageUrl, message ->
+            productViewModel.uploadImages(src, it) { success, imageName, imageUrl, message ->
                 if (success) {
-                    addProduct(imageUrl, src)
+                    addProduct(imageUrl, imageName)
                 } else {
-                    Toast.makeText(applicationContext, "Failed to upload image", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
-
     private fun addProduct(url: String?, imageName: String?) {
         val productName: String = addProductBinding.editTextName.text.toString()
         val desc: String = addProductBinding.editTextDesc.text.toString()
@@ -138,4 +136,5 @@ class AddProductActivity : AppCompatActivity() {
             loadingUtils.dismiss()
         }
     }
+
 }

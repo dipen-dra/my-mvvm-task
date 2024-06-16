@@ -22,7 +22,7 @@ class ProductViewModel(val repository: ProductRepository) : ViewModel() {
     }
 
 
-    fun uploadImages(src:String,imageUri: Uri, callback: (Boolean, String?, String?) -> Unit) {
+    fun uploadImages(src:String, imageUri: Uri, callback: (Boolean, String?, String?, Any?) -> Unit) {
         repository.uploadImages(src,imageUri) { success, imageUrl,message ->
             callback(success, imageUrl,message)
         }
@@ -42,12 +42,13 @@ class ProductViewModel(val repository: ProductRepository) : ViewModel() {
         get()=_loadingState
 
     fun fetchAllProducts(){
-        _loadingState.value=true
-        repository.getAllProducts { products, success, meassage ->
-            if(products!=null){
-                _loadingState.value=false
-                _productList.value=products
+        _loadingState.value = true
+        repository.getAllProducts { products, success, message ->
+            if (products != null) {
+                _loadingState.value = false
+                _productList.value = products
             }
         }
     }
+
 }

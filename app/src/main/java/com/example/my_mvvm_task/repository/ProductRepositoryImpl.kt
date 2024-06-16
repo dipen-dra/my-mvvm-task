@@ -37,32 +37,31 @@ class ProductRepositoryImpl : ProductRepository {
         imageUri: Uri,
         callback: (Boolean, String?, String?) -> Unit
     ) {
-        var imageName = ""
-        if (src == "add") {
-            var imageName = UUID.randomUUID().toString()
+        val imageName = if (src == "add") {
+            UUID.randomUUID().toString()
         } else {
-            var imageName = src
+            src
         }
-        var imageReference = storageReference.child("products").child(imageName)
+        val imageReference = storageReference.child(imageName.toString())
         imageUri.let { url ->
             imageReference.putFile(url).addOnSuccessListener {
                 imageReference.downloadUrl.addOnSuccessListener { url ->
-                    var imageUrl = url.toString()
+                    val imageUrl = url.toString()
                     callback(true, imageName, imageUrl)
                 }
             }.addOnFailureListener {
                 callback(false, "", it.message)
             }
         }
-
     }
+
 
     override fun getAllProducts(callback: (List<ProductModel>?, Boolean, String?) -> Unit) {
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var productList = mutableListOf<ProductModel>()
+                val productList = mutableListOf<ProductModel>()
                 for (eachData in snapshot.children) {
-                    var product = eachData.getValue(ProductModel::class.java)
+                    val product = eachData.getValue(ProductModel::class.java)
                     if (product != null) {
                         productList.add(product)
                     }
@@ -75,6 +74,7 @@ class ProductRepositoryImpl : ProductRepository {
             }
         })
     }
+
 
     override fun updateProducts(
         id: String,

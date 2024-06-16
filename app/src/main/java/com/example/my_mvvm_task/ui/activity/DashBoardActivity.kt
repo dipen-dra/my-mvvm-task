@@ -37,6 +37,7 @@ class DashBoardActivity : AppCompatActivity() {
             }
         }
 
+
         productViewModel.loadingState.observe(this) { loadingState ->
             if (loadingState) {
                 dashBoardBinding.progressBar2.visibility = View.VISIBLE
