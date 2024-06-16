@@ -21,7 +21,6 @@ import com.example.my_mvvm_task.repository.ProductRepositoryImpl
 import com.example.my_mvvm_task.utils.ImageUtils
 import com.example.my_mvvm_task.utils.LoadingUtils
 import com.example.my_mvvm_task.viewmodel.ProductViewModel
-
 import com.squareup.picasso.Picasso
 
 class AddProductActivity : AppCompatActivity() {

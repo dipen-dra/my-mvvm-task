@@ -9,9 +9,11 @@ import com.example.my_mvvm_task.R
 import com.example.my_mvvm_task.databinding.ActivityForgotPasswordBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+
 class ForgotPasswordActivity : AppCompatActivity() {
     lateinit var forgotPasswordBinding: ActivityForgotPasswordBinding
     lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
