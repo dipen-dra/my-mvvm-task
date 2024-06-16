@@ -95,7 +95,7 @@ class SignUpActivity : AppCompatActivity() {
                 val userRef =
                     FirebaseDatabase.getInstance().reference.child("users").child(userId!!)
                 userRef.child("phone").setValue(phoneNum)
-                Toast.makeText(this@SignUpActivity, "SignUp Successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SignUpActivity, "SignedUp Successful", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
                 Toast.makeText(
