@@ -3,7 +3,6 @@ package com.example.my_mvvm_task.ui.activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -11,17 +10,11 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.my_mvvm_task.databinding.ActivityUpdateProductBinding
 import com.example.my_mvvm_task.model.ProductModel
 import com.example.my_mvvm_task.repository.ProductRepositoryImpl
 import com.example.my_mvvm_task.utils.ImageUtils
 import com.example.my_mvvm_task.viewmodel.ProductViewModel
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
 class UpdateProductActivity : AppCompatActivity() {
