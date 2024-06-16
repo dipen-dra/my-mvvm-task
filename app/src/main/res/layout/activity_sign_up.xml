@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light"
+    android:background="@android:color/holo_orange_light"
     tools:context=".ui.activity.SignUpActivity">
 
     <ImageView
@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="84dp"
-        android:backgroundTint="@android:color/holo_orange_light"
+        android:backgroundTint="@android:color/black"
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
