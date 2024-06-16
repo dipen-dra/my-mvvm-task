@@ -42,14 +42,14 @@ class ProductRepositoryImpl : ProductRepository {
         } else {
             src
         }
-        val imageReference = storageReference.child(imageName.toString())
+        val imageReference = imageName?.let { storageReference.child(it) }
         imageUri.let { url ->
-            imageReference.putFile(url).addOnSuccessListener {
+            imageReference?.putFile(url)?.addOnSuccessListener {
                 imageReference.downloadUrl.addOnSuccessListener { url ->
                     val imageUrl = url.toString()
                     callback(true, imageName, imageUrl)
                 }
-            }.addOnFailureListener {
+            }?.addOnFailureListener {
                 callback(false, "", it.message)
             }
         }
@@ -81,12 +81,17 @@ class ProductRepositoryImpl : ProductRepository {
         data: MutableMap<String, Any>?,
         callback: (Boolean, String?) -> Unit
     ) {
-        data?.let {
-            ref.child(id).updateChildren(it).addOnCompleteListener {
+        data?.let { updatedData ->
+            // Ensure the 'url' key is present in the map with the correct image URL
+            if (!updatedData.containsKey("url")) {
+                callback(false, "Image URL is missing")
+                return
+            }
+            ref.child(id).updateChildren(updatedData).addOnCompleteListener {
                 if (it.isSuccessful) {
                     callback(true, "Product Updated Successfully")
                 } else {
-                    callback(false, it.exception?.message)
+                    callback(false,it.exception?.message)
                 }
             }
         }

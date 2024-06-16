@@ -14,6 +14,7 @@ import com.example.my_mvvm_task.databinding.ActivityUpdateProductBinding
 import com.example.my_mvvm_task.model.ProductModel
 import com.example.my_mvvm_task.repository.ProductRepositoryImpl
 import com.example.my_mvvm_task.utils.ImageUtils
+import com.example.my_mvvm_task.utils.LoadingUtils
 import com.example.my_mvvm_task.viewmodel.ProductViewModel
 import com.squareup.picasso.Picasso
 
@@ -23,6 +24,7 @@ class UpdateProductActivity : AppCompatActivity() {
     var imageName = ""
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     var imageUri: Uri? = null
+    lateinit var loadingUtils: LoadingUtils
 
     lateinit var imageUtils: ImageUtils
     lateinit var productViewModel: ProductViewModel
@@ -54,6 +56,7 @@ class UpdateProductActivity : AppCompatActivity() {
             imageUri = url
             Picasso.get().load(url).into(updateProductBinding.imageUpdate)
         }
+        loadingUtils = LoadingUtils(this)
 
         var repo = ProductRepositoryImpl()
         productViewModel = ProductViewModel(repo)
@@ -80,59 +83,66 @@ class UpdateProductActivity : AppCompatActivity() {
         }
     }
 
-        fun uploadImage() {
-            var src = "update";
-            imageUri?.let {
-                productViewModel.uploadImages(src, it) { success, imageUrl, message,_ ->
-                    if (success) {
-                        updateProduct(imageUrl.toString(), src)
-                    } else {
-                        Toast.makeText(
-                            applicationContext, "Failed to upload image",
-                            Toast.LENGTH_LONG
-                        ).show()
+    fun uploadImage() {
+        loadingUtils.showLoading()
+        var src = "update";
+        imageUri?.let {
+            productViewModel.uploadImages(src, it) { success, imageame,imageUrl,_ ->
+                if (success) {
+                    if (imageUrl != null) {
+                        updateProduct(imageUrl)
                     }
+                } else {
+                    Toast.makeText(
+                        applicationContext, "Failed to upload image",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
+    }
 
-        fun updateProduct(url: String,src: String) {
-            var updatedName: String = updateProductBinding.editTextNameUpdate.text.toString()
-            var updatedPrice: Int = updateProductBinding.editTextPriceUpdate.text.toString().toInt()
-            var updatedDesc: String = updateProductBinding.editTextDescUpdate.text.toString()
+    fun updateProduct(url: String) {
+        var updatedName: String = updateProductBinding.editTextNameUpdate.text.toString()
+        var updatedPrice: Int = updateProductBinding.editTextPriceUpdate.text.toString().toInt()
+        var updatedDesc: String = updateProductBinding.editTextDescUpdate.text.toString()
 
-            var updatedMap = mutableMapOf<String, Any>()
-            updatedMap["productName"] = updatedName
-            updatedMap["productPrice"] = updatedPrice
-            updatedMap["productDesc"] = updatedDesc
-            updatedMap["id"] = id
-            updatedMap["url"] = url
+        var updatedMap = mutableMapOf<String, Any>()
+        updatedMap["productName"] = updatedName
+        updatedMap["productPrice"] = updatedPrice
+        updatedMap["productDesc"] = updatedDesc
+        updatedMap["id"] = id
+        updatedMap["url"] = url
 
-            productViewModel.updateProducts(id,updatedMap){
+        productViewModel.updateProducts(id,updatedMap){
                 success,message->
-                if(success){
-                    Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
-                }
-                else{
-                    Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
-                }
+            if(success){
+                Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
+                val intent = Intent(this@UpdateProductActivity, DashBoardActivity::class.java)
+                startActivity(intent)
+                finish()
             }
+            else{
+                Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
+            }
+            loadingUtils.dismiss()
         }
+    }
 
 
-        fun registerActivityForResult() {
-            activityResultLauncher = registerForActivityResult(
-                ActivityResultContracts.StartActivityForResult(),
-                ActivityResultCallback { result ->
-                    val resultcode = result.resultCode
-                    val imageData = result.data
-                    if (resultcode == RESULT_OK && imageData != null) {
-                        imageUri = imageData.data
-                        imageUri?.let {
-                            Picasso.get().load(it).into(updateProductBinding.imageUpdate)
-                        }
+    fun registerActivityForResult() {
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+            ActivityResultCallback { result ->
+                val resultcode = result.resultCode
+                val imageData = result.data
+                if (resultcode == RESULT_OK && imageData != null) {
+                    imageUri = imageData.data
+                    imageUri?.let {
+                        Picasso.get().load(it).into(updateProductBinding.imageUpdate)
                     }
+                }
 
-                })
-        }
+            })
+    }
 }

@@ -21,10 +21,9 @@ class ProductViewModel(val repository: ProductRepository) : ViewModel() {
 
     }
 
-
     fun uploadImages(src:String, imageUri: Uri, callback: (Boolean, String?, String?, Any?) -> Unit) {
-        repository.uploadImages(src,imageUri) { success, imageUrl,message ->
-            callback(success, imageUrl,message)
+        repository.uploadImages(src,imageUri) { success, imageName,imageUrl->
+            callback(success,imageName,imageUrl,imageUri)
         }
     }
     fun addProducts(productModel: ProductModel, callback: (Boolean, String?) -> Unit){
@@ -34,7 +33,7 @@ class ProductViewModel(val repository: ProductRepository) : ViewModel() {
     var _productList = MutableLiveData<List<ProductModel>?>()
 
     var productList = MutableLiveData<List<ProductModel>?>()
-                get()=_productList//getter
+        get()=_productList//getter
 
 
     var _loadingState=MutableLiveData<Boolean>()
@@ -50,5 +49,4 @@ class ProductViewModel(val repository: ProductRepository) : ViewModel() {
             }
         }
     }
-
 }
