@@ -1,4 +1,4 @@
-package com.example.my_mvvm_task
+package com.example.my_mvvm_task.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
